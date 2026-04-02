@@ -9,7 +9,7 @@ function [GeS,NGeS,DGeS] = knee_loaded_motion(flexion_angle_in, M_in, F_in, movi
 % for medical convention.
 %
 %INPUT
-% flexion_angle_in: the considered knee flexion angle, [°]. Positive values
+% flexion_angle_in: the considered knee flexion angle, [Â°]. Positive values
 %imply flexion of the femur with respect to the tibia. In the case of 
 %mapping the motion of the tibia with respect to the femur, no sing correction is expected,
 %thus the motion of the tibia with respect to the femur is
