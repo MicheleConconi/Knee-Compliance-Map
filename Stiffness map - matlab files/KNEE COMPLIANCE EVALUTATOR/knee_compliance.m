@@ -1,4 +1,4 @@
-function [D_GeS] = knee_compliance(flexion_angle,M,F)
+function [D_GeS] = knee_compliance(flexion_angle,M,F,V,varargin)
 % This function return the variation in femur position and orientation with
 % respect to the values observed for the knee natural motion at the
 % considered flexion_angle.
@@ -6,21 +6,36 @@ function [D_GeS] = knee_compliance(flexion_angle,M,F)
 % induced by each load component separately.
 %
 %INPUT
-%flexion_angle = the considered knee flexion angle, [°]
-%M = the torque vector (1X3) applied to the femur, expressed in the tibial
-%anatomical reference system, [Nm]. The z component is assumed to be null
-%since the knee is assumed to provide no resistance to flexion.
+% flexion_angle = the considered knee flexion angle, [°]
+% M = the torque vector (1X3) applied to the femur, expressed in the tibial
+% anatomical reference system, [Nm]. The z component is assumed to be null
+% since the knee is assumed to provide no resistance to flexion.
 % F = the force vector (1X3) applied to the knee, expressed in the tibial
-%anatomical reference system, [N].
-%
+% anatomical reference system, [N].
+% V = volume of the femur of the current subject under analysis [mm^3]. This input
+% is set to a default value (Volume of the map reference femur) if not
+% given as input. In that case, the result given as output is not scaled
+% to the specific subject
+
 %OUTPUT
-%D_GeS = vector of displacement (1X6) with respect to the configuration of the
-%femur relative to the tibia at flexion_angle. The vector contain in the
-%order:
-%[0, D_AA, D_IE, D_X, D_Y, D_Z]
+% D_GeS = vector of displacement (1X6) with respect to the configuration of the
+% femur relative to the tibia at flexion_angle. The vector contain in the
+% order:
+% [0, D_AA, D_IE, D_X, D_Y, D_Z]
 % Rotation are in degree, translation in mm.
 % The first component is always null since load is assumed to leave flexion
 % unaffected
+
+
+% check
+if nargin < 3
+    error('Not enough input arguments in "knee_compliance"')
+    % V is the only optional input
+elseif nargin < 4
+    % If V is not given, set V to a default value (Volume of the map
+    % reference femur)
+    V = 548666.453; % [mm^3]
+end
 
 % Correction on the moment around the z-axis. It was assumed to be zero,
 % but it may not be zero due to noise and small errors, therefore, we set
@@ -102,6 +117,10 @@ Total_displacement = D_Mx + D_My + D_Fx + D_Fy + D_Fz;
 
 % No displacement on the flexion angle (not resisted)
 D_GeS = [0,Total_displacement];
+
+% Scaling
+D_GeS = scale_GeS(D_GeS,V);
+
 
 end
 
