@@ -9,7 +9,7 @@ The map definition is part of a journal article currently under submission and r
 
 ## Reference System
 The map is originally expressed as the motion of the femur with respect to the tibia. The coordinates are expressed as a variation of the Grood and Suntay convention, more specifically: the femur is moving with respect to the tibia anatomical reference frame. Position is normalized to consider the full extended position as the null position (each motion component equal 0).
-/AnatomicalReferenceSystems.png
+(/AnatomicalReferenceSystems.png)
 
 ## Current version:
 ### V1
@@ -26,8 +26,8 @@ This version contains two folders:
 - *newFigures*: contains .fig and .png files of the map fitting surfaces.
    - Each figure represents the continuos deformation obtained for a monoaxial load envelope (force or torque), through the entire flexion range.
    For example:
-   /newFigures/Natural motion.png
-   /newFigures/Fx.png
+   (/newFigures/Natural motion.png)
+   (/newFigures/Fx.png)
    
 ## How to use it
 To use the map it is sufficient to focus on the function script ***knee_loaded_motion***. In brief:
