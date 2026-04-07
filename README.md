@@ -1,6 +1,13 @@
 # Knee Compliance Map
 A MATLAB representation of the experimentally derived map of the knee compliance. The map returns the tibio-femoral position and orientation given the flexion angle and the external load (force and torque) applied to the articulation.
 
+# Table of contents <!-- omit in toc -->
+- [Introduction](#introduction)
+- [Reference Systen](#reference-system)
+- [Current- version](#current-version)
+  - [V1](#V1)
+- [How to use it](#how-to-use-it)
+
 ## Introduction
 This repository contains a MATLAB package that permits to use the Knee Compliance Map to obtain the tibio-femoral position and orientation of the knee, given the flexion angle and the external load (force and torque) applied to the articulation.
 The spatial kinematics is obtained as the natural (passive) motion of the knee, plus the deformation induced by the applied loads.
@@ -26,7 +33,7 @@ This version contains two folders:
 - *newFigures*: contains .fig and .png files of the map fitting surfaces.
    - Each figure represents the continuos deformation obtained for a monoaxial load envelope (force or torque), through the entire flexion range.
    For example:
-   ![Natural motion fitting](./newFigures/Natural motion.png)
+   ![Natural motion fitting](./newFigures/Natural-motion.png)
    ![Fx fitting surface](./newFigures/Fx.png)
    
 ## How to use it
