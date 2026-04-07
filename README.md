@@ -1,20 +1,23 @@
-# Knee-Compliance-Map
+# Knee Compliance Map
 A MATLAB representation of the experimentally derived map of the knee compliance. The map returns the tibio-femoral position and orientation given the flexion angle and the external load (force and torque) applied to the articulation.
 
 ## Introduction
-This repository contains a MATLAB package that permits to use the Knee-Compliance-Map to obtain the tibio-femoral position and orientation of the knee, given the flexion angle and the external load (force and torque) applied to the articulation.
-The spatial kinematics is obtained as the natural (passive) motion of the knee, plus the deformation induced by the applied loads. 
+This repository contains a MATLAB package that permits to use the Knee Compliance Map to obtain the tibio-femoral position and orientation of the knee, given the flexion angle and the external load (force and torque) applied to the articulation.
+The spatial kinematics is obtained as the natural (passive) motion of the knee, plus the deformation induced by the applied loads.
+
+The map definition is part of a journal article currently under submission and revision.
 
 ## Reference System
 The map is originally expressed as the motion of the femur with respect to the tibia. The coordinates are expressed as a variation of the Grood and Suntay convention, more specifically: the femur is moving with respect to the tibia anatomical reference frame. Position is normalized to consider the full extended position as the null position (each motion component equal 0).
+/AnatomicalReferenceSystems.png
 
-## Versions:
+## Current version:
 ### V1
 This version contains two folders:
 - *Stiffness map - matlab files/KNEE COMPLIANCE EVALUTATOR*:
    - contains all the MATLAB functions to run the calculation
-     - _GeS_Compute_Coordinates_: returns the Grood and Suntay coordinates (GeS) associated to the rototranslational matrix (T).
-	 - _T_Move2Position_: Compute the rototranslation matrix (T) from the Grood and Suntay coordinates (GeS).
+     - _GeS_Compute_Coordinates_: returns the kinematics coordinates (GeS) associated to the rototranslational matrix (T).
+	 - _T_Move2Position_: Compute the rototranslation matrix (T) from the kinematics coordinates (GeS).
 	 - _compliance_fitting_model_: returns the value calculated through the compliance fitting model (that is: _polinomial of 4<sup>th</sup> grade in flexion, logarithmic in load_).
 	 - _knee_compliance_: returns the variation in femur position and orientation with respect to the values observed for the knee natural motion at the considered flexion angle. Displacement are obtained as the linar combination of the displacement induced by each load component separately.
 	 - ***knee_loaded_motion***: returns the position and orientation of the tibio-femoral at the given flexion_angle under the effect of the external loads. The coordinate are expressed according to a variation of the Grood and Suntay notation and are evaluated as the sum of femur natural motion (computed trugh the function knee_natural_motion.m) the displacement induced by external loads (computed trugh the function knee_compliance.m)
@@ -22,3 +25,21 @@ This version contains two folders:
    - contains all the polinomial coefficients obtained from the fitting procedure.
 - *newFigures*: contains .fig and .png files of the map fitting surfaces.
    - Each figure represents the continuos deformation obtained for a monoaxial load envelope (force or torque), through the entire flexion range.
+   For example:
+   /newFigures/Natural motion.png
+   /newFigures/Fx.png
+   
+## How to use it
+To use the map it is sufficient to focus on the function script ***knee_loaded_motion***. In brief:
+- The script works on a **single position** at a time
+- The **inputs**:
+  - *Required*: 
+     - flexion_angle_in: the considered knee flexion angle, \[°]. Positive values imply flexion of the femur with respect to the tibia. In the case of mapping the motion of the tibia with respect to the femur, no sing correction is expected, thus the motion of the tibia with respect to the femur is associated with negative value
+     - M_in: the torque vector (1X3) applied to the femur, expressed in the tibial anatomical reference system, \[Nm]. In the case of mapping the motion of the tibia with respect to the femur, M is the torque vector applied to the tibia, expressed in the femoral anatomical reference system. In both cases the z component is assumed to be null since the knee is assumed to provide no resistance to flexion.
+	 - F_in: the force vector (1X3) applied to the femur, expressed in the tibial anatomical reference system, \[N]. In the case of mapping the motion of the tibia with respect to the femur, M is the force vector applied to the tibia, expressed in the femoral anatomical reference system.
+	 - moving_femur: is true if you are mapping the motion of the femur relative to the tibia, false in the opposite case.
+	 - right_side: is true for a right leg, false in the opposite case.
+- The **outputs**:
+  - GeS: the pose of the femur relative to the tibia (or viceversa, depending on the *moving_femur* input flag) at flexion_angle_in. Rotation are in degree, translation in mm. The vector contain in the order: \[flexion_angle, AA, IE, X, Y, Z]. No sing correction is applied to match medical convention.
+  - NGeS: natural pose of the femur relative to the tibia (or viceversa, depending on the *moving_femur* input flag) at flexion_angle_in. Rotation are in degree, translation in mm. The vector contain in the order: \[flexion_angle, AA, IE, X, Y, Z]. No sing correction is applied to match medical convention.
+  - DGeS: displacement from natural pose of the femur relative to the tibia (or viceversa, depending on the *moving_femur* input flag) at flexion_angle_in. Rotation are in degree, translation in mm. The vector contain in the order: \[flexion_angle, AA, IE, X, Y, Z]. No sing correction is applied to match medical convention.
