@@ -1,4 +1,4 @@
-function [GeS,NGeS,DGeS] = knee_loaded_motion(flexion_angle_in, M_in, F_in, moving_femur,right_side)
+function [GeS,NGeS,DGeS] = knee_loaded_motion(flexion_angle_in, M_in, F_in, moving_femur,right_side,V,varargin)
 % This function returns the position and orientation of the femur with respect to
 % the tibia anatomical reference system at the given flexion_angle under the effect of some external loads.
 % The coordinate are expressed according to a variation of the Grood and
@@ -9,7 +9,7 @@ function [GeS,NGeS,DGeS] = knee_loaded_motion(flexion_angle_in, M_in, F_in, movi
 % for medical convention.
 %
 %INPUT
-% flexion_angle_in: the considered knee flexion angle, [Â°]. Positive values
+% flexion_angle_in: the considered knee flexion angle, [°]. Positive values
 %imply flexion of the femur with respect to the tibia. In the case of 
 %mapping the motion of the tibia with respect to the femur, no sing correction is expected,
 %thus the motion of the tibia with respect to the femur is
@@ -31,6 +31,11 @@ function [GeS,NGeS,DGeS] = knee_loaded_motion(flexion_angle_in, M_in, F_in, movi
 %
 % right_side: is true for a right leg, false in the opposite case
 %
+% V: volume of the femur of the current subject under analysis [mm^3]. This input
+% is set to a default value (Volume of the map reference femur) if not
+% given as input. In that case, the result given as output is not scaled
+% to the specific subject
+%
 %OUTPUT
 % GeS: the pose of the femur relative to the tibia at flexion_angle_in. 
 %Rotation are in degree, translation in mm. The vector contain in the
@@ -41,6 +46,16 @@ function [GeS,NGeS,DGeS] = knee_loaded_motion(flexion_angle_in, M_in, F_in, movi
 % NGeS: natural pose of the femur relative to the tibia at flexion_angle_in.
 % DGeS: displacement from natural pose of the femur relative to the tibia
 % at flexion_angle_in.
+
+% check
+if nargin < 5
+    error('Not enough input arguments in "knee_loaded_motion"')
+    % V is the only optional input
+elseif nargin < 6
+    % If V is not given, set V to a default value (Volume of the map
+    % reference femur)
+    V = 548666.453; % [mm^3]
+end
 
 
 % In the case we are interested in the motion of the tibia wrt the femur,
@@ -112,21 +127,6 @@ if(moving_femur == false)
     [GeS_TwrtF] = GeS_Compute_Coordinates(T_ges_t2f,false);
 end
 
-% IMPORTANT NOTE:
-% GeS is defined normally as rotations around: z-femur, y-tibia, x-ort
-% for this reason, if we evaluate GeS for Femur wrt Tibia in this way, 
-% all the cited axis remain approximatelly fixed during the motion.
-% In this case, plotting the GeS results from the map computation, gives in
-% output an easily interpretable result (+ anterior force -> + femur anterior
-% translation).
-% Differently, if we evaluate GeS for Tibia wrt Femur in this way,
-% of all the cited axis only the z remains approximatelly fixed. y and
-% therefore x (which is orthogonal to y and z), are moving alongside with
-% the motion of the subject. For this reason, results visualized as motion
-% of the Tibia with respect to the Femur are not so easily interpretable.
-% (compression force can show a distraction for low flexion angles)
-
-
 if(moving_femur == false)
         T_N_f2t = T_Move2Position( NGeS_FwrtT,true);
         T_N_t2f = inv(T_N_f2t);
@@ -146,6 +146,10 @@ else
     DGeS = DGeS_FwrtT;
 end
 
+% Scaling
+GeS  = scale_GeS(GeS,V);
+NGeS = scale_GeS(NGeS,V);
+DGeS = scale_GeS(DGeS,V);
 
 
 end
