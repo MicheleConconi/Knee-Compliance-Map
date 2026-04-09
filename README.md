@@ -33,8 +33,8 @@ This version contains two folders:
 - *Figures*: contains .fig and .png files of the map fitting surfaces.
    - Each figure represents the continuos deformation obtained for a monoaxial load envelope (force or torque), through the entire flexion range.
    For example:
-   ![Natural motion fitting](./newFigures/Natural_motion.png)
-   ![Fx fitting surface](./newFigures/Fx.png)
+   ![Natural motion fitting](./Figures/Natural_motion.png)
+   ![Fx fitting surface](./Figures/Fx.png)
    
 ## How to use it
 To use the map it is sufficient to focus on the function script ***knee_loaded_motion.m***. In brief:
