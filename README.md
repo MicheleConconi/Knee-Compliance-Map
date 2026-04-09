@@ -15,29 +15,29 @@ The spatial kinematics is obtained as the natural (passive) motion of the knee, 
 The map definition is part of a journal article currently under submission and revision.
 
 ## Reference System
-The map is originally expressed as the motion of the femur with respect to the tibia. The coordinates are expressed as a variation of the Grood and Suntay convention, more specifically: the femur is moving with respect to the tibia anatomical reference frame. Position is normalized to consider the full extended position as the null position (each motion component equal 0).
-![anatomical_reference_systems](./AnatomicalReferenceSystems.png)
+The map is originally expressed as the motion of the femur with respect to the tibia. The coordinates are expressed as a variation of the Grood and Suntay convention, more specifically: the femur is moving with respect to the tibia anatomical reference frame. The Origin of the tibia anatomical reference frame is positioned such that the full extended position of the bones is the null position (each motion component equal 0).
+![reference_systems](./reference_system.jpg)
 
 ## Current version:
 ### V1
 This version contains two folders:
 - *Stiffness map - matlab files/KNEE COMPLIANCE EVALUTATOR*:
    - contains all the MATLAB functions to run the calculation
-     - _GeS_Compute_Coordinates_: returns the kinematics coordinates (GeS) associated to the rototranslational matrix (T).
-	 - _T_Move2Position_: Compute the rototranslation matrix (T) from the kinematics coordinates (GeS).
-	 - _compliance_fitting_model_: returns the value calculated through the compliance fitting model (that is: _polinomial of 4<sup>th</sup> grade in flexion, logarithmic in load_).
-	 - _knee_compliance_: returns the variation in femur position and orientation with respect to the values observed for the knee natural motion at the considered flexion angle. Displacement are obtained as the linar combination of the displacement induced by each load component separately.
-	 - ***knee_loaded_motion***: returns the position and orientation of the tibio-femoral at the given flexion_angle under the effect of the external loads. The coordinate are expressed according to a variation of the Grood and Suntay notation and are evaluated as the sum of femur natural motion (computed trugh the function knee_natural_motion.m) the displacement induced by external loads (computed trugh the function knee_compliance.m)
-	 - _knee_natural_motion_: Simply return the position and orientation of the femur with respect to the tibia anatomical reference system at the given flexion_angle.
+     - _GeS_Compute_Coordinates.m_: returns the kinematics coordinates (GeS) associated to the rototranslational matrix (T).
+	 - _T_Move2Position.m_: Compute the rototranslation matrix (T) from the kinematics coordinates (GeS).
+	 - _compliance_fitting_model.m_: returns the value calculated through the compliance fitting model (that is: _polinomial of 4<sup>th</sup> grade in flexion, logarithmic in load_).
+	 - _knee_compliance.m_: returns the variation in femur position and orientation with respect to the values observed for the knee natural motion at the considered flexion angle. Displacement are obtained as the linar combination of the displacement induced by each load component separately.
+	 - ***knee_loaded_motion.m***: returns the position and orientation of the tibio-femoral at the given flexion_angle under the effect of the external loads. The coordinate are expressed according to a variation of the Grood and Suntay notation and are evaluated as the sum of femur natural motion (computed trugh the function knee_natural_motion.m) the displacement induced by external loads (computed trugh the function knee_compliance.m)
+	 - _knee_natural_motion.m_: Simply return the position and orientation of the femur with respect to the tibia anatomical reference system at the given flexion_angle.
    - contains all the polinomial coefficients obtained from the fitting procedure.
-- *newFigures*: contains .fig and .png files of the map fitting surfaces.
+- *Figures*: contains .fig and .png files of the map fitting surfaces.
    - Each figure represents the continuos deformation obtained for a monoaxial load envelope (force or torque), through the entire flexion range.
    For example:
-   ![Natural motion fitting](./newFigures/Natural-motion.png)
+   ![Natural motion fitting](./newFigures/Natural_motion.png)
    ![Fx fitting surface](./newFigures/Fx.png)
    
 ## How to use it
-To use the map it is sufficient to focus on the function script ***knee_loaded_motion***. In brief:
+To use the map it is sufficient to focus on the function script ***knee_loaded_motion.m***. In brief:
 - The script works on a **single position** at a time
 - The **inputs**:
   - *Required*: 
