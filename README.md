@@ -19,7 +19,7 @@ The map is originally expressed as the motion of the femur with respect to the t
 ![reference_systems](./reference_system.jpg)
 
 ## Current version:
-### V1
+### V1.1
 This version contains two folders:
 - *Stiffness map - matlab files/KNEE COMPLIANCE EVALUTATOR*:
    - contains all the MATLAB functions to run the calculation
@@ -29,6 +29,7 @@ This version contains two folders:
 	 - _knee_compliance.m_: returns the variation in femur position and orientation with respect to the values observed for the knee natural motion at the considered flexion angle. Displacement are obtained as the linar combination of the displacement induced by each load component separately.
 	 - ***knee_loaded_motion.m***: returns the position and orientation of the tibio-femoral at the given flexion_angle under the effect of the external loads. The coordinate are expressed according to a variation of the Grood and Suntay notation and are evaluated as the sum of femur natural motion (computed trugh the function knee_natural_motion.m) the displacement induced by external loads (computed trugh the function knee_compliance.m)
 	 - _knee_natural_motion.m_: Simply return the position and orientation of the femur with respect to the tibia anatomical reference system at the given flexion_angle.
+	 - _scale_GeS.m_: computes the scaling factor and applies it to the pose given as input. Scaling factor is calculated as the cubic root of the ratio between the Volume of the femur of the current subject (V) and the Volume of the map reference femur (V_reference).
    - contains all the polinomial coefficients obtained from the fitting procedure.
 - *Figures*: contains .fig and .png files of the map fitting surfaces.
    - Each figure represents the continuos deformation obtained for a monoaxial load envelope (force or torque), through the entire flexion range.
@@ -46,6 +47,7 @@ To use the map it is sufficient to focus on the function script ***knee_loaded_m
 	 - F_in: the force vector (1X3) applied to the femur, expressed in the tibial anatomical reference system, \[N]. In the case of mapping the motion of the tibia with respect to the femur, M is the force vector applied to the tibia, expressed in the femoral anatomical reference system.
 	 - moving_femur: is true if you are mapping the motion of the femur relative to the tibia, false in the opposite case.
 	 - right_side: is true for a right leg, false in the opposite case.
+	 - V: volume of the femur of the current subject under analysis \[mm<sup>3</sup>]. This input is optional and set to a default value (Volume of the map reference femur) if not given as input. In that case, the result given as output is not scaled to the specific subject
 - The **outputs**:
   - GeS: the pose of the femur relative to the tibia (or viceversa, depending on the *moving_femur* input flag) at flexion_angle_in. Rotation are in degree, translation in mm. The vector contain in the order: \[flexion_angle, AA, IE, X, Y, Z]. No sing correction is applied to match medical convention.
   - NGeS: natural pose of the femur relative to the tibia (or viceversa, depending on the *moving_femur* input flag) at flexion_angle_in. Rotation are in degree, translation in mm. The vector contain in the order: \[flexion_angle, AA, IE, X, Y, Z]. No sing correction is applied to match medical convention.
